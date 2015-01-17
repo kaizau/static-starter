@@ -1,0 +1,6 @@
+if (environment == "development")
+  script(src="/assets/javascripts/jquery.js")
+else
+  script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+//script(src="#{fingerprint['assets/javascripts/script.js']}")
+block javascripts

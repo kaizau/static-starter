@@ -1,0 +1,15 @@
+doctype html
+html.no-js
+  include /shared/_head.jade
+
+  body(class='#{page.bodyClass}')
+    .Page
+      .PageMain
+        .PageMainInner
+          .PageContent
+            block content
+
+      .PageFooter
+        include /shared/_footer.jade
+
+    include /shared/_foot.jade

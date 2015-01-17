@@ -1,5 +1,4 @@
-var development = false;
-
+var path = require('path');
 var metalsmith = require('metalsmith');
 
 var include = require('metalsmith-include');
@@ -7,39 +6,77 @@ var collections = require('metalsmith-collections');
 var templates = require('metalsmith-templates');
 var branch = require('metalsmith-branch');
 
-var jade = require('metalsmith-jade');
-var markdown = require('metalsmith-markdown');
 var stylus = require('metalsmith-stylus');
 var coffee = require('metalsmith-coffee');
+var fingerprint = require('metalsmith-fingerprint');
+
+var jade = require('metalsmith-jade');
+var markdown = require('metalsmith-markdown');
 
 var watch = require('metalsmith-watch');
 var serve = require('metalsmith-serve');
 var ignore = require('metalsmith-ignore');
 
-var smith = metalsmith(__dirname)
+var debug = function(files, ms, done) {
+  console.log(ms);
+  done();
+};
+
+var build = metalsmith(__dirname);
+var development = false;
+
+// CONFIG
+
+build
   .source('source')
   .destination('public')
+  .metadata({
+    projectTitle: 'Project Title',
+    googleAnalytics: 'X-XXX-XXXX'
+  });
 
-  // FUNCTIONALITY
+// FUNCTIONALITY
 
+build
   .use(include())
   .use(collections({
     articles: {}
-  }))
+  }));
+  /*
   .use(templates({
     engine: 'jade',
     directory: 'templates',
     pretty: true
-  }))
+  }));
+  */
 
-  // CONTENT
+// ASSETS
 
+build
+  .use(branch('assets/stylesheets/[^_]**.styl')
+    .use(stylus())
+  )
+  .use(branch('assets/javascripts/[^_]**.coffee')
+    .use(coffee())
+  )
+  .use(fingerprint({
+    pattern: [
+      'assets/javascripts/**.js',
+      'assets/stylesheets/**.css'
+    ]
+  }));
+
+// CONTENT
+
+build
   .use(branch('[^_]**.jade')
+    .use(debug)
     .use(jade({
+      basedir: path.join(__dirname, 'source'),
+      useMetadata: true,
       pretty: true
     }))
   )
-
   .use(branch('[^_]**.md')
     .use(markdown({
       smartypants: true,
@@ -47,24 +84,13 @@ var smith = metalsmith(__dirname)
       tables: true,
       breaks: true
     }))
-  )
-
-  // STYLE
-
-  .use(branch('assets/stylesheets/[^_]**.styl')
-    .use(stylus())
-  )
-
-  // SCRIPT
-
-  .use(branch('assets/javascripts/[^_]**.coffee')
-    .use(coffee())
   );
+
 
 // DEV SERVER
 
 if (development) {
-  smith
+  build
     .use(serve())
     .use(watch({
       pattern : '**/*',
@@ -74,7 +100,7 @@ if (development) {
 
 // FINISH
 
-smith
+build
   .use(ignore([
     'assets/bower_components/**',
     'assets/{bower.json,README.md}',

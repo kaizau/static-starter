@@ -1,2 +1,28 @@
-h1 foo
-p bar
+---
+page:
+  title: Page Title
+  description: Description
+  bodyClass: test
+---
+
+extends /shared/_layout.jade
+
+block content
+  .Thing= googleAnalytics
+
+  //include /shared/_header.jade
+
+  .Masthead.Section
+    .Section.grid
+      .text
+        h1.
+          It's not enough to do what you're told. In today's world, you've
+          <strong>gotta <span class="nobr">be good.</span></strong>
+        h2.
+          The Gotta Be Good Tour brings you expertise and training from local
+          and international experts for free, on things that actually matter to
+          you. And it's rocking good fun.
+
+  .SalesLetter.Section.grid
+    .text
+      != sales_letter
