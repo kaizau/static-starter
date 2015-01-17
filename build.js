@@ -14,6 +14,7 @@ var coffee = require('metalsmith-coffee');
 
 var watch = require('metalsmith-watch');
 var serve = require('metalsmith-serve');
+var ignore = require('metalsmith-ignore');
 
 var smith = metalsmith(__dirname)
   .source('source')
@@ -27,18 +28,19 @@ var smith = metalsmith(__dirname)
   }))
   .use(templates({
     engine: 'jade',
+    directory: 'templates',
     pretty: true
   }))
 
   // CONTENT
 
-  .use(branch('*.jade')
+  .use(branch('[^_]**.jade')
     .use(jade({
       pretty: true
     }))
   )
 
-  .use(branch('*.md')
+  .use(branch('[^_]**.md')
     .use(markdown({
       smartypants: true,
       gfm: true,
@@ -49,13 +51,13 @@ var smith = metalsmith(__dirname)
 
   // STYLE
 
-  .use(branch('*.styl')
+  .use(branch('assets/stylesheets/[^_]**.styl')
     .use(stylus())
   )
 
   // SCRIPT
 
-  .use(branch('*.coffee')
+  .use(branch('assets/javascripts/[^_]**.coffee')
     .use(coffee())
   );
 
@@ -72,6 +74,12 @@ if (development) {
 
 // FINISH
 
-smith.build(function(err) {
-  if (err) throw err;
-});
+smith
+  .use(ignore([
+    'assets/bower_components/**',
+    'assets/{bower.json,README.md}',
+    '**/_*{,/*}'
+  ]))
+  .build(function(err) {
+    if (err) throw err;
+  });
