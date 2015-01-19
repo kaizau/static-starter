@@ -70,7 +70,6 @@ build
 
 build
   .use(branch('[^_]**.jade')
-    .use(debug)
     .use(jade({
       basedir: path.join(__dirname, 'source'),
       useMetadata: true,
