@@ -1,37 +1,26 @@
 var path = require('path');
-var marked = require('marked')
 var metalsmith = require('metalsmith');
 var combine = require('metalsmith-combine');
 var branch = require('metalsmith-branch');
 var stylus = require('metalsmith-stylus');
 var coffee = require('metalsmith-coffee');
 var fingerprint = require('metalsmith-fingerprint');
+var marked = require('marked')
 var jade = require('metalsmith-jade');
 var ignore = require('metalsmith-ignore');
 var permalinks = require('metalsmith-permalinks');
 var dev = require('metalsmith-dev');
-var gzip = require('metalsmith-gzip');
-
-var debug = function(files, ms, done) {
-  console.log(ms);
-  done();
-};
+//var gzip = require('metalsmith-gzip');
 
 // CONFIG
 
 var stack = metalsmith(__dirname);
-var useServer = true;
-
-marked.setOptions({
-  breaks: true,
-  smartypants: true
-});
 
 stack
   .source('source')
   .destination('public')
   .metadata({
-    environment: 'development',
+    environment: 'development', // use 'development' to start local server
     projectTitle: 'Project Title',
     googleAnalytics: 'X-XXX-XXXX'
   });
@@ -41,7 +30,9 @@ stack
 stack
   .use(combine())
   .use(branch('assets/stylesheets/[^_]**.styl')
-    .use(stylus())
+    .use(stylus({
+      'include css': true
+    }))
   )
   .use(branch('assets/javascripts/[^_]**.coffee')
     .use(coffee())
@@ -54,6 +45,11 @@ stack
   }));
 
 // CONTENT
+
+marked.setOptions({
+  breaks: true,
+  smartypants: true
+});
 
 stack
   .use(branch('[^_]**.jade')
@@ -74,7 +70,7 @@ stack
   ]))
   .use(permalinks());
 
-if (useServer) {
+if (stack.metadata().environment == 'development') {
   dev.watch(stack);
   dev.serve(stack);
 } else {

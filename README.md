@@ -1,14 +1,17 @@
-# Static Prototype Generator
+## Static Prototype Generator
 
-An opinionated prototyping framework build on [Metalsmith](http://www.metalsmith.io/).
+An opinionated static site generator / prototyping framework built on [Metalsmith](http://www.metalsmith.io/).
 
-## TODO
+```sh
+git clone git@github.com:kaizau/static-starter.git
+git submodule update
+cd source/assets && bower install
+```
 
+### Future
+
+* Automated setup
 * Minify assets
-* Polished blank slate
 * Better bodyClass / slug
-
-## Future
-
 * Gzip assets
 * Deploy script
