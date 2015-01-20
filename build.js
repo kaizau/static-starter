@@ -1,21 +1,20 @@
 var path = require('path');
 var metalsmith = require('metalsmith');
 
-var include = require('metalsmith-include');
-var collections = require('metalsmith-collections');
-var templates = require('metalsmith-templates');
-var combine = require('metalsmith-combine');
 var branch = require('metalsmith-branch');
-
+var combine = require('metalsmith-combine');
 var stylus = require('metalsmith-stylus');
 var coffee = require('metalsmith-coffee');
+var uglify = require('metalsmith-uglify');
 var fingerprint = require('metalsmith-fingerprint');
 
-var jade = require('metalsmith-jade');
 var markdown = require('metalsmith-markdown');
+var jade = require('metalsmith-jade');
+var templates = require('metalsmith-templates');
 var ignore = require('metalsmith-ignore');
 
 var dev = require('metalsmith-dev');
+var gzip = require('metalsmith-gzip');
 var debug = function(files, ms, done) {
   console.log(ms);
   done();
@@ -35,29 +34,20 @@ stack
     googleAnalytics: 'X-XXX-XXXX'
   });
 
-// FUNCTIONALITY
-
-stack
-  .use(include())
-  .use(collections({
-    articles: {}
-  }))
-  .use(templates({
-    engine: 'jade',
-    directory: 'templates',
-    pretty: true
-  }))
-  .use(combine());
-
 // ASSETS
 
 stack
+  .use(combine())
   .use(branch('assets/stylesheets/[^_]**.styl')
     .use(stylus())
   )
   .use(branch('assets/javascripts/[^_]**.coffee')
     .use(coffee())
   )
+  .use(uglify({
+    filter: ['assets/javascripts/[^_]**.js', '!**/*.min.js'],
+    preserveComments: 'some'
+  }))
   .use(fingerprint({
     pattern: [
       'assets/javascripts/**.js',
@@ -68,21 +58,25 @@ stack
 // CONTENT
 
 stack
-  .use(branch('[^_]**.jade')
-    .use(jade({
-      basedir: path.join(__dirname, 'source'),
-      useMetadata: true,
-      pretty: true
-    }))
-  )
   .use(branch('[^_]**.md')
     .use(markdown({
       smartypants: true,
       gfm: true,
-      tables: true,
-      breaks: true
+      tables: true
     }))
-  );
+  )
+  .use(branch('[^_]**.jade')
+    .use(jade({
+      basedir: path.join(__dirname, 'source'),
+      useMetadata: true
+    }))
+  )
+  .use(templates({
+    engine: 'jade',
+    basedir: path.join(__dirname, 'source'),
+    directory: 'source/shared',
+    locals: stack.metadata()
+  }));
 
 // FINISH
 

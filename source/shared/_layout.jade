@@ -2,12 +2,13 @@ doctype html
 html.no-js
   include /shared/_head.jade
 
-  body(class='#{page.bodyClass}')
+  body(class='#{bodyClass}')
     .Page
       .PageMain
         .PageMainInner
           .PageContent
             block content
+              != contents
 
       .PageFooter
         include /shared/_footer.jade
