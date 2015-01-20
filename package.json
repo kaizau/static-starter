@@ -1,5 +1,5 @@
 {
-  "name": "metalsmith-starter",
+  "name": "static-starter",
   "private": true,
   "dependencies": {
     "marked": "^0.3.2",

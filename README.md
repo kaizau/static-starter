@@ -16,8 +16,8 @@ cd source/assets && bower install
 
 ### Future
 
-* Automated setup
+* Automated setup / script
 * Minify assets
-* Better bodyClass / slug
+* Better BodyClass / slug
 * Gzip assets
 * Deploy script
