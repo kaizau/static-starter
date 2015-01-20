@@ -4,6 +4,4 @@ An opinionated prototyping framework build on [Metalsmith](http://www.metalsmith
 
 ## TODO
 
-* Test out livereload
-* Figure out how to handle bower_components
-* Remove unused plugins (copy, each)
+* Test templates

@@ -4,6 +4,7 @@ var metalsmith = require('metalsmith');
 var include = require('metalsmith-include');
 var collections = require('metalsmith-collections');
 var templates = require('metalsmith-templates');
+var combine = require('metalsmith-combine');
 var branch = require('metalsmith-branch');
 
 var stylus = require('metalsmith-stylus');
@@ -12,47 +13,45 @@ var fingerprint = require('metalsmith-fingerprint');
 
 var jade = require('metalsmith-jade');
 var markdown = require('metalsmith-markdown');
-
-var watch = require('metalsmith-watch');
-var serve = require('metalsmith-serve');
 var ignore = require('metalsmith-ignore');
 
+var dev = require('metalsmith-dev');
 var debug = function(files, ms, done) {
   console.log(ms);
   done();
 };
 
-var build = metalsmith(__dirname);
-var development = false;
-
 // CONFIG
 
-build
+var stack = metalsmith(__dirname);
+var useServer = true;
+
+stack
   .source('source')
   .destination('public')
   .metadata({
+    environment: 'development',
     projectTitle: 'Project Title',
     googleAnalytics: 'X-XXX-XXXX'
   });
 
 // FUNCTIONALITY
 
-build
+stack
   .use(include())
   .use(collections({
     articles: {}
-  }));
-  /*
+  }))
   .use(templates({
     engine: 'jade',
     directory: 'templates',
     pretty: true
-  }));
-  */
+  }))
+  .use(combine());
 
 // ASSETS
 
-build
+stack
   .use(branch('assets/stylesheets/[^_]**.styl')
     .use(stylus())
   )
@@ -68,7 +67,7 @@ build
 
 // CONTENT
 
-build
+stack
   .use(branch('[^_]**.jade')
     .use(jade({
       basedir: path.join(__dirname, 'source'),
@@ -85,26 +84,21 @@ build
     }))
   );
 
-
-// DEV SERVER
-
-if (development) {
-  build
-    .use(serve())
-    .use(watch({
-      pattern : '**/*',
-      livereload: true
-    }));
-}
-
 // FINISH
 
-build
+stack
   .use(ignore([
     'assets/bower_components/**',
     'assets/{bower.json,README.md}',
     '**/_*{,/*}'
-  ]))
-  .build(function(err) {
-    if (err) throw err;
-  });
+  ]));
+
+if (useServer) {
+  dev.watch(stack);
+  dev.serve(stack);
+} else {
+  stack
+    .build(function(err) {
+      if (err) throw err;
+    });
+}
