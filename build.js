@@ -67,14 +67,16 @@ stack
   )
   .use(branch('[^_]**.jade')
     .use(jade({
+      useMetadata: true,
       basedir: path.join(__dirname, 'source'),
-      useMetadata: true
+      pretty: true
     }))
   )
   .use(templates({
     engine: 'jade',
-    basedir: path.join(__dirname, 'source'),
     directory: 'source/shared',
+    basedir: path.join(__dirname, 'source'),
+    pretty: true,
     locals: stack.metadata()
   }));
 
