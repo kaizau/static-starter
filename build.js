@@ -39,6 +39,7 @@ stack
   )
   .use(fingerprint({
     pattern: [
+      'assets/images/**',
       'assets/javascripts/**.js',
       'assets/stylesheets/**.css'
     ]
@@ -47,7 +48,6 @@ stack
 // CONTENT
 
 marked.setOptions({
-  breaks: true,
   smartypants: true
 });
 
