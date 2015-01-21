@@ -1,7 +1,5 @@
-var path = require('path');
 var metalsmith = require('metalsmith');
 var combine = require('metalsmith-combine');
-var branch = require('metalsmith-branch');
 var stylus = require('metalsmith-stylus');
 var coffee = require('metalsmith-coffee');
 var fingerprint = require('metalsmith-fingerprint');
@@ -29,14 +27,16 @@ stack
 
 stack
   .use(combine())
-  .use(branch('assets/stylesheets/[^_]**.styl')
-    .use(stylus({
-      'include css': true
-    }))
-  )
-  .use(branch('assets/javascripts/[^_]**.coffee')
-    .use(coffee())
-  )
+  .use(ignore([
+    'assets/bower_components/**{,/.*}',
+    'assets/{bower.json,README.md}',
+    '**/.DS_Store',
+    '**/_*{,/**,/**/.*}'
+  ]))
+  .use(stylus({
+    'include css': true
+  }))
+  .use(coffee())
   .use(fingerprint({
     pattern: [
       'assets/images/**',
@@ -52,23 +52,16 @@ marked.setOptions({
 });
 
 stack
-  .use(branch('[^_]**.jade')
-    .use(jade({
-      useMetadata: true,
-      basedir: path.join(__dirname, 'source'),
-      pretty: true
-    }))
-  );
+  .use(jade({
+    useMetadata: true,
+    basedir: stack.path('source'),
+    pretty: true
+  }))
+  .use(permalinks({
+    relative: false
+  }));
 
 // FINISH
-
-stack
-  .use(ignore([
-    'assets/bower_components/**',
-    'assets/{bower.json,README.md}',
-    '**/_*{,/*}'
-  ]))
-  .use(permalinks());
 
 if (stack.metadata().environment == 'development') {
   dev.watch(stack);
