@@ -14,6 +14,10 @@ npm install
 cd source/assets && bower install
 ```
 
+### TODO
+
+* Handle adding / deleting files more gracefully (metalsmith-dev)
+
 ### Future
 
 * Automated setup / script
