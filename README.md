@@ -16,7 +16,10 @@ cd source/assets && bower install
 
 ### TODO
 
+* Add fingerprint variable / function to stylus (metalsmith-stylus)
 * Handle adding / deleting files more gracefully (metalsmith-dev)
+* Refactor dev into my own plugin
+* Polish plugins for open sourcing
 
 ### Future
 
