@@ -34,7 +34,8 @@ stack
     '**/_*{,/**,/**/.*}'
   ]))
   .use(fingerprint({
-    pattern: [ 'assets/images/**' ]
+    pattern: 'assets/images/**',
+    exclude: true
   }))
   .use(stylus({
     'include css': true
@@ -44,7 +45,8 @@ stack
     pattern: [
       'assets/javascripts/**.js',
       'assets/stylesheets/**.css'
-    ]
+    ],
+    exclude: true
   }));
 
 // CONTENT
