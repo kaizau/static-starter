@@ -30,12 +30,11 @@ stack
   .use(ignore([
     'assets/bower_components/**{,/.*}',
     'assets/{bower.json,README.md}',
-    '**/.DS_Store',
-    '**/_*{,/**,/**/.*}'
+    '**/_*{,/**,/**/.*}',
+    '**/.DS_Store'
   ]))
   .use(fingerprint({
-    pattern: 'assets/images/**',
-    exclude: true
+    pattern: 'assets/images/**'
   }))
   .use(stylus({
     'include css': true
@@ -45,13 +44,18 @@ stack
     pattern: [
       'assets/javascripts/**.js',
       'assets/stylesheets/**.css'
-    ],
-    exclude: true
-  }));
+    ]
+  }))
+  .use(ignore([
+    'assets/**',
+    '!assets/**/*-*.*'
+  ]));
 
 // CONTENT
 
 marked.setOptions({
+  gfm: true,
+  tables: true,
   smartypants: true
 });
 

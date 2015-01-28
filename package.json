@@ -7,7 +7,7 @@
     "metalsmith-coffee": "^0.0.1",
     "metalsmith-combine": "^0.0.3",
     "metalsmith-dev": "kaizau/metalsmith-dev",
-    "metalsmith-fingerprint": "kaizau/metalsmith-fingerprint",
+    "metalsmith-fingerprint": "^1.0.1",
     "metalsmith-gzip": "^1.0.0",
     "metalsmith-ignore": "^0.1.2",
     "metalsmith-jade": "^0.0.4",
