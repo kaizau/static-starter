@@ -48,7 +48,7 @@ stack
   }))
   .use(ignore([
     'assets/**',
-    '!assets/**/*-*.*'
+    '!assets/**/*-*[0-9]*.*'
   ]));
 
 // CONTENT
