@@ -1,3 +1,5 @@
 environment: development
 title: Project Title
 googleAnalytics: X-XXX-XXXXXX
+useJquery: false
+useModernizr: false

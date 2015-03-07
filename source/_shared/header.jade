@@ -1,2 +1,15 @@
-.Section
-  p Hello universe
+header.PageHeader(role='banner')
+  .Section
+    h1.Logo
+      a(href='/') Logo
+
+    //- TODO make this a helper
+    - nav = [{name: 'Home', path: '/'}, {name: 'Other', path: '/other'}]
+    nav.Nav(role='navigation')
+      ul
+        - each page in nav
+          li
+            - if (path == page.path)
+              span.active= page.name
+            - else
+              a(href=page.path)= page.name

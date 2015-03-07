@@ -2,14 +2,19 @@ doctype html
 html.no-js
   include /_shared/head.jade
 
-  body(class='#{bodyClass}')
+  body(class=bodyClass)
     .Page
       .PageMain
         .PageMainInner
           .PageContent
+            include /_shared/header.jade
             block content
 
-      .PageFooter
-        include /_shared/footer.jade
+      include /_shared/footer.jade
 
-    include /_shared/foot.jade
+    if (global.useJquery || useJquery) 
+      if (global.environment == 'development')
+        script(src=asset(fingerprint['assets/javascripts/jquery.js']))
+      else
+        script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    block javascripts

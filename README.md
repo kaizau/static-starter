@@ -18,16 +18,8 @@ cd source/assets && bower install
 
 ### TODO
 
-* Document deploy process
-* Split build.js into serve and pack
-* Handle adding / deleting files more gracefully (metalsmith-dev)
-* Refactor dev into my own plugin
-* Polish plugins for open sourcing
-
-### Future
-
-* Automated setup / script
 * Minify assets
 * Better BodyClass / slug
 * Gzip assets
-* Deploy script
+* Split build.js into serve and pack
+* Handle adding / deleting files more gracefully (metalsmith-dev)

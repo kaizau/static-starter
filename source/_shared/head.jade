@@ -5,14 +5,21 @@ head
 
   title= title
   meta(name="description" content="#{description}")
-
   meta(name="viewport" content="width=device-width, initial-scale=1")
-  block meta
 
   link(href="/#{fingerprint['assets/stylesheets/package.css']}" rel="stylesheet")
   block stylesheets
 
-  script(src="/#{fingerprint['assets/javascripts/modernizr.js']}")
+  if (global.useModernizr || useModernizr)
+    script(src="/#{fingerprint['assets/javascripts/modernizr.js']}")
+  else
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+    script.
+      with(document.documentElement){className=className.replace(/\bno-js\b/,'js')}
+
+  block head
 
   if (global.environment !== 'production')
     meta(name="robots" content="noindex, nofollow")
