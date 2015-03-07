@@ -1,4 +1,4 @@
-if (environment == "development")
+if (global.environment != 'production')
   script(src="/assets/javascripts/jquery.js")
 else
   script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")

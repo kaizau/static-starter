@@ -1,5 +1,6 @@
 var metalsmith = require('metalsmith');
 var combine = require('metalsmith-combine');
+var metadata = require('metalsmith-metadata');
 var stylus = require('metalsmith-stylus');
 var coffee = require('metalsmith-coffee');
 var fingerprint = require('metalsmith-fingerprint');
@@ -18,15 +19,15 @@ stack
   .source('source')
   .destination('public')
   .metadata({
-    environment: 'development',
-    projectTitle: 'Project Title',
-    googleAnalytics: 'X-XXX-XXXX'
   });
 
 // ASSETS
 
 stack
   .use(combine())
+  .use(metadata({
+    global: '_shared/global.yaml'
+  }))
   .use(ignore([
     'assets/bower_components/**{,/.*}',
     'assets/{bower.json,README.md}',

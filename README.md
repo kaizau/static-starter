@@ -2,6 +2,8 @@
 
 An opinionated static site generator / prototyping framework built on [Metalsmith](http://www.metalsmith.io/).
 
+### Install
+
 ```sh
 # Copy Files
 mkdir my-project && cd my-project
@@ -16,6 +18,8 @@ cd source/assets && bower install
 
 ### TODO
 
+* Document deploy process
+* Split build.js into serve and pack
 * Handle adding / deleting files more gracefully (metalsmith-dev)
 * Refactor dev into my own plugin
 * Polish plugins for open sourcing
