@@ -3,3 +3,4 @@ title: Project Title
 googleAnalytics: X-XXX-XXXXXX
 useJquery: false
 useModernizr: false
+assetHost: //assets.cloudfront.net # no trailing slash!

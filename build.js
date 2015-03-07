@@ -19,6 +19,14 @@ stack
   .source('source')
   .destination('public')
   .metadata({
+    asset: function(path) {
+      path = (path[0] === '/') ? path : '/' + path;
+      if (global.environment === 'production' && global.assetHost) {
+        return global.assetHost + path;
+      } else {
+        return path;
+      }
+    }
   });
 
 // ASSETS
