@@ -9,7 +9,7 @@ header.PageHeader(role='banner')
       ul
         - each page in nav
           li
-            - if (path == page.path)
-              span.active= page.name
-            - else
+            - if (path !== page.path)
               a(href=page.path)= page.name
+            - else
+              span.active= page.name

@@ -1,3 +1,4 @@
+var extend = require('util')._extend
 var metalsmith = require('metalsmith');
 var combine = require('metalsmith-combine');
 var metadata = require('metalsmith-metadata');
@@ -13,29 +14,36 @@ var local = require('metalsmith-dev');
 
 // CONFIG
 
+var global = {
+  environment: 'development',
+  assetHost: '//example.cloudfront.net',
+  googleAnalytics: '',
+  projectTitle: 'Project Title',
+  useJquery: false,
+  useModernizr: false
+};
+
+var helpers = {
+  asset: function(path) {
+    path = (path[0] === '/') ? path : '/' + path;
+    if (global.environment === 'production') {
+      return assetHost + path;
+    } else{
+      return path;
+    }
+  }
+};
+
+// ASSETS
+
 var stack = metalsmith(__dirname);
 
 stack
   .source('source')
   .destination('public')
-  .metadata({
-    asset: function(path) {
-      path = (path[0] === '/') ? path : '/' + path;
-      if (global.environment === 'production' && global.assetHost) {
-        return global.assetHost + path;
-      } else {
-        return path;
-      }
-    }
-  });
-
-// ASSETS
-
-stack
+  .metadata(extend(global, helpers))
   .use(combine())
-  .use(metadata({
-    global: '_shared/global.yaml'
-  }))
+  //.use(metadata({ varName: '_shared/example.yaml' }))
   .use(ignore([
     'assets/bower_components/**{,/.*}',
     'assets/{bower.json,README.md}',
