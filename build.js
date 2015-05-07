@@ -1,4 +1,5 @@
-var extend = require('util')._extend
+var extend = require('util')._extend;
+var path = require('path');
 var metalsmith = require('metalsmith');
 var combine = require('metalsmith-combine');
 var metadata = require('metalsmith-metadata');
@@ -24,12 +25,12 @@ var global = {
 };
 
 var helpers = {
-  asset: function(path) {
-    path = (path[0] === '/') ? path : '/' + path;
+  asset: function(file) {
+    file = (file[0] === '/') ? file : '/' + file;
     if (global.environment === 'production') {
-      return assetHost + path;
+      return assetHost + file;
     } else{
-      return path;
+      return file;
     }
   }
 };
@@ -77,6 +78,14 @@ marked.setOptions({
 });
 
 stack
+  .use(function(files, ms, done) {
+    var url;
+    for (var file in files) {
+      url = path.join(path.dirname(file), path.basename(file, path.extname(file)));
+      files[file].current = (url !== 'index') ? url : '/';
+    }
+    done();
+  })
   .use(jade({
     useMetadata: true,
     basedir: stack.path('source'),
