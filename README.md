@@ -18,8 +18,11 @@ cd source/assets && bower install
 
 ### TODO
 
+* Integrate ms-watch 1.0.0 + ms-serve
 * Minify assets
-* Better BodyClass / slug
 * Gzip assets
-* Split build.js into serve and pack
-* Handle adding / deleting files more gracefully (metalsmith-dev)
+* Explore using Octopress deploy / another S3 script
+
+* Use ms-metadata only on necessary pages (load via frontmatter?)
+* Handle adding / deleting files more gracefully
+* Split build.js into serve and package
