@@ -81,8 +81,8 @@ stack
   .use(function(files, ms, done) {
     var url;
     for (var file in files) {
-      url = path.join(path.dirname(file), path.basename(file, path.extname(file)));
-      files[file].current = (url !== 'index') ? url : '/';
+      url = path.join('/', path.dirname(file), path.basename(file, path.extname(file)));
+      files[file].current = (url !== '/index') ? url : '/';
     }
     done();
   })
