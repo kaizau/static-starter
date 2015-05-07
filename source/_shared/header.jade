@@ -4,7 +4,7 @@ header.PageHeader(role='banner')
       a(href='/') Logo
 
     //- TODO make this a helper
-    - nav = [{name: 'Home', path: '/'}, {name: 'Other', path: '/other'}]
+    - nav = [{name: 'Home', path: '/'}, {name: 'Other', path: 'other/path'}]
     nav.Nav(role='navigation')
       ul
         - each page in nav
