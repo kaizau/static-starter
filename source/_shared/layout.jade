@@ -2,7 +2,8 @@ doctype html
 html.no-js
   include /_shared/head.jade
 
-  body(class=bodyClass)
+  - var bc = bodyClass(current);
+  body(class=bc)
     .Page
       .PageMain
         .PageMainInner

@@ -26,12 +26,25 @@ var global = {
 
 var helpers = {
   asset: function(file) {
-    file = (file[0] === '/') ? file : '/' + file;
+    file = (file.charAt(0) === '/') ? file : '/' + file;
     if (global.environment === 'production') {
       return assetHost + file;
     } else{
       return file;
     }
+  },
+  bodyClass: function(current) {
+    var str;
+    if (current !== '/') {
+      str = (current.charAt(0) === '/' ? current.slice(1) : current).split(/[/\W]/);
+      for (var i in str) {
+        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      }
+      str = str.join('');
+    } else {
+      str = 'Index';
+    }
+    return 'Body' + str;
   }
 };
 
