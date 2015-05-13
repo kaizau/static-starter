@@ -18,6 +18,7 @@ cd source/assets && bower install
 
 ### TODO
 
+* Allow build to accept passed variables (PROD, BUILD, etc.)  
 * Integrate ms-watch 1.0.0 + ms-serve
 * Minify assets
 * Gzip assets
@@ -25,4 +26,3 @@ cd source/assets && bower install
 
 * Use ms-metadata only on necessary pages (load via frontmatter?)
 * Handle adding / deleting files more gracefully
-* Split build.js into serve and package

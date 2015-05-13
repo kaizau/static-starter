@@ -28,7 +28,7 @@ var helpers = {
   asset: function(file) {
     file = (file.charAt(0) === '/') ? file : '/' + file;
     if (global.environment === 'production') {
-      return assetHost + file;
+      return global.assetHost + file;
     } else{
       return file;
     }
